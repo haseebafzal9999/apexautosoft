@@ -8,17 +8,17 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
 export const metadata: Metadata = {
-  title: "Nexora Flow — Automation & Web Solutions",
-  description: "Nexora Flow builds custom web applications, AI agents, Twilio integrations, Zapier automations and scalable business automation systems.",
+  title: "ApexAutosoft",
+  description: "ApexAutosoft builds intelligent automation systems, AI agents, custom software applications, and business workflows.",
   openGraph: {
-    title: "Nexora Flow — Automation & Web Solutions",
-    description: "Nexora Flow builds custom web applications, AI agents, Twilio integrations, Zapier automations and scalable business automation systems.",
+    title: "ApexAutosoft",
+    description: "ApexAutosoft builds intelligent automation systems, AI agents, custom software applications, and business workflows.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nexora Flow — Automation & Web Solutions",
-    description: "Nexora Flow builds custom web applications, AI agents, Twilio integrations, Zapier automations and scalable business automation systems.",
+    title: "ApexAutosoft",
+    description: "ApexAutosoft builds intelligent automation systems, AI agents, custom software applications, and business workflows.",
   },
 };
 

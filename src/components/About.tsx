@@ -28,7 +28,7 @@ export default function About() {
               transition={{ delay: 0.1 }}
               className="text-brand-muted text-lg leading-relaxed"
             >
-              Nexora Flow is focused on building efficient, scalable digital systems that connect web applications, APIs, communication platforms, automation tools and AI.
+              ApexAutosoft is focused on building efficient, scalable digital systems that connect web applications, APIs, communication platforms, automation tools and AI.
             </motion.p>
             
             <motion.div 

@@ -17,7 +17,7 @@ export default function WhyUs() {
             className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold mb-6 leading-tight"
           >
             WHY BUSINESSES <br/>
-            <span className="text-brand-accent">TRUST NEXORA FLOW</span>
+            <span className="text-brand-accent">TRUST APEXAUTOSOFT</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 30 }}

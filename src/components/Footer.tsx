@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="flex flex-col gap-3 max-w-sm">
             <Link href="#home" className="flex items-center gap-2 w-fit">
               <span className="font-sans text-xl font-bold tracking-wider">
-                NEXORA FLOW
+                ApexAutosoft
               </span>
               <div className="w-2 h-2 rounded-full bg-brand-accent" />
             </Link>
@@ -20,10 +20,10 @@ export default function Footer() {
               Automation that moves business forward.
             </p>
             <a
-              href="mailto:hello@nexoraflow.com"
+              href="mailto:hello@apexautosoft.com"
               className="text-brand-accent text-sm font-medium hover:text-brand-light transition-colors mt-1"
             >
-              hello@nexoraflow.com
+              hello@apexautosoft.com
             </a>
           </div>
 
@@ -54,7 +54,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-brand-muted/20 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-brand-muted">
-          <p>© 2026 Nexora Flow. All rights reserved.</p>
+          <p>© 2026 ApexAutosoft. All rights reserved.</p>
           <div className="flex items-center gap-5">
             <Link href="#" className="hover:text-brand-light transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-brand-light transition-colors">Terms & Conditions</Link>

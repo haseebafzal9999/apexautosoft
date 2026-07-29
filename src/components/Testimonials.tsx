@@ -9,7 +9,7 @@ const REVIEWS = [
     name: "James D.",
     role: "CEO",
     company: "TechFlow Solutions",
-    text: "Nexora Flow built a complete Twilio-based communication system for our sales team. Inbound calls, SMS follow-ups, and lead routing—all automated. It saved us 20+ hours per week.",
+    text: "ApexAutosoft built a complete Twilio-based communication system for our sales team. Inbound calls, SMS follow-ups, and lead routing—all automated. It saved us 20+ hours per week.",
     rating: 5,
   },
   {
@@ -17,7 +17,7 @@ const REVIEWS = [
     name: "Sarah K.",
     role: "Operations Manager",
     company: "GrowthGrid Inc.",
-    text: "We needed Zapier integrations between our CRM, email, and Slack. Nexora delivered a clean, reliable automation layer that just works. No more manual data entry.",
+    text: "We needed Zapier integrations between our CRM, email, and Slack. ApexAutosoft delivered a clean, reliable automation layer that just works. No more manual data entry.",
     rating: 5,
   },
   {

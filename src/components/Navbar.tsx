@@ -61,7 +61,7 @@ export default function Navbar() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-accent"></span>
               </div>
-              NEXORA FLOW
+              ApexAutosoft
             </span>
           </Link>
 
@@ -118,7 +118,7 @@ export default function Navbar() {
             className="fixed inset-0 z-[60] bg-brand-light flex flex-col"
           >
             <div className="p-6 flex justify-between items-center border-b border-brand-muted/10">
-              <span className="font-sans text-xl font-bold tracking-wider">NEXORA FLOW</span>
+              <span className="font-sans text-xl font-bold tracking-wider">ApexAutosoft</span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2 -mr-2 text-brand-dark"
