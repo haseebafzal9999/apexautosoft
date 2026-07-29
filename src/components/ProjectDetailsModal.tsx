@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Project, CATEGORY_LABELS } from "@/lib/projects";
@@ -13,6 +14,8 @@ interface ProjectDetailsModalProps {
 }
 
 export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: ProjectDetailsModalProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousActiveElement = useRef<Element | null>(null);
@@ -45,11 +48,17 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
   useEffect(() => {
     if (!project) return;
     previousActiveElement.current = document.activeElement;
-    document.body.style.overflow = "hidden";
+    const scrollY = window.scrollY;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
     document.addEventListener("keydown", handleKeyDown);
     requestAnimationFrame(() => closeButtonRef.current?.focus());
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      window.scrollTo(0, scrollY);
       document.removeEventListener("keydown", handleKeyDown);
       if (previousActiveElement.current instanceof HTMLElement) {
         previousActiveElement.current.focus();
@@ -57,7 +66,8 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
     };
   }, [project, handleKeyDown]);
 
-  return (
+  if (!mounted) return null;
+  return createPortal(
     <AnimatePresence>
       {project && (
         <motion.div
@@ -66,7 +76,13 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black/50 backdrop-blur-sm overflow-y-auto"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          style={{
+            paddingTop: "max(env(safe-area-inset-top), 20px)",
+            paddingBottom: "env(safe-area-inset-bottom)",
+            paddingLeft: "max(env(safe-area-inset-left), 16px)",
+            paddingRight: "max(env(safe-area-inset-right), 16px)",
+          }}
           onClick={(e) => {
             if (e.target === overlayRef.current) onClose();
           }}
@@ -74,23 +90,32 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
           aria-modal="true"
           aria-label={`Project details: ${project.title}`}
         >
+          {/* Close button - always visible, top-right corner */}
+          <button
+            ref={closeButtonRef}
+            onClick={onClose}
+            className="fixed z-[10000] w-11 h-11 flex items-center justify-center bg-white border border-brand-muted/20 shadow-lg hover:bg-brand-dark hover:text-brand-light hover:border-brand-dark transition-colors duration-300"
+            style={{
+              top: "calc(max(env(safe-area-inset-top), 16px))",
+              right: "calc(max(env(safe-area-inset-right), 16px))",
+            }}
+            aria-label="Close details"
+          >
+            <X className="w-4 h-4" />
+          </button>
+
+          {/* Modal content */}
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.97 }}
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="relative w-full max-w-3xl bg-brand-light border border-brand-muted/20 shadow-2xl max-h-[90vh] overflow-y-auto"
+            className="relative w-full sm:w-auto sm:max-w-3xl h-full sm:h-auto bg-brand-light border border-brand-muted/20 shadow-2xl overscroll-contain"
+            style={{
+              maxHeight: "min(90vh, calc(100dvh - 80px))",
+              overflowY: "auto",
+            }}
           >
-            {/* Close button */}
-            <button
-              ref={closeButtonRef}
-              onClick={onClose}
-              className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-white border border-brand-muted/20 hover:bg-brand-dark hover:text-brand-light hover:border-brand-dark transition-colors duration-300"
-              aria-label="Close details"
-            >
-              <X className="w-4 h-4" />
-            </button>
-
             {/* Image */}
             {project.image && (
               <div className="relative aspect-video w-full overflow-hidden bg-brand-accentLight">
@@ -99,7 +124,6 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
             )}
 
             <div className="p-6 md:p-10">
-              {/* Header */}
               <div className="flex flex-wrap items-center gap-3 mb-2">
                 <span className="text-[10px] font-semibold tracking-widest uppercase text-brand-accent">
                   {CATEGORY_LABELS[project.category] || project.category}
@@ -113,12 +137,10 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
                 {project.title}
               </h2>
 
-              {/* Short description */}
               <p className="text-brand-muted text-base md:text-lg leading-relaxed mb-8">
                 {project.shortDescription}
               </p>
 
-              {/* Full description */}
               {project.fullDescription && (
                 <div className="mb-8">
                   <h3 className="text-sm font-semibold tracking-wider text-brand-dark mb-3 uppercase">About</h3>
@@ -126,7 +148,6 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
                 </div>
               )}
 
-              {/* Features */}
               {project.features.length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-sm font-semibold tracking-wider text-brand-dark mb-4 uppercase">Key Features</h3>
@@ -141,7 +162,6 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
                 </div>
               )}
 
-              {/* Technologies */}
               {project.technologies.length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-sm font-semibold tracking-wider text-brand-dark mb-4 uppercase">Technologies</h3>
@@ -158,7 +178,6 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
                 </div>
               )}
 
-              {/* Results */}
               {project.results.length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-sm font-semibold tracking-wider text-brand-dark mb-4 uppercase">Results</h3>
@@ -173,7 +192,6 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
                 </div>
               )}
 
-              {/* Actions */}
               <div className="flex flex-wrap gap-3 pt-6 border-t border-brand-muted/10">
                 {project.video && (
                   <button
@@ -215,6 +233,7 @@ export default function ProjectDetailsModal({ project, onClose, onWatchDemo }: P
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
