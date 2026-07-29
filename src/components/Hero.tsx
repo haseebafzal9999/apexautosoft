@@ -4,13 +4,27 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { fadeUpVariant, staggerContainer } from "@/lib/animations";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 // Dynamically import the 3D scene to avoid SSR issues
 const AutomationScene = dynamic(() => import("./3d/AutomationScene"), {
   ssr: false,
 });
 
+const MobileHero = dynamic(() => import("./MobileHero"), {
+  ssr: false,
+});
+
 export default function Hero() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <section id="home" className="relative min-h-[100svh] flex flex-col justify-center pt-32 pb-16 bg-brand-light w-full max-w-full overflow-hidden">
       {/* Background Depth */}
@@ -77,7 +91,7 @@ export default function Hero() {
 
         {/* Right Content - 3D scene */}
          <div className="relative w-full lg:w-[55%] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] flex items-center justify-center overflow-hidden min-w-0">
-           <AutomationScene />
+            {isMobile ? <MobileHero /> : <AutomationScene />}
         </div>
       </div>
     </section>
