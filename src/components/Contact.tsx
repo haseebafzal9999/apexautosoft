@@ -208,7 +208,7 @@ export default function Contact() {
                 <button 
                   type="submit" 
                   disabled={status === "loading"}
-                  className="mt-4 w-full py-4 bg-brand-dark text-brand-light font-medium tracking-wide hover:bg-brand-accent transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-xs sm:text-sm"
+                  className="mt-4 w-full py-4 bg-brand-dark text-brand-light font-medium tracking-wide hover:bg-brand-accent transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-xs max-[400px]:text-[10px] sm:text-sm whitespace-nowrap"
                 >
                   {status === "loading" ? (
                     <>

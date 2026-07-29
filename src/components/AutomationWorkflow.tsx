@@ -23,8 +23,6 @@ const STEPS = [
   { id: 6, icon: TrendingUp, label: "Sales Result", sub: "Revenue captured & analytics updated", badge: "Closed" },
 ];
 
-
-
 function useTilt() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -45,20 +43,9 @@ function useTilt() {
   return { rotateX, rotateY, onMouseMove, onMouseLeave, style: { perspective: 1000 } };
 }
 
-function PipelineCard({
-  step,
-  index,
-  total,
-  isMobile,
-}: {
-  step: typeof STEPS[0];
-  index: number;
-  total: number;
-  isMobile: boolean;
-}) {
+function DesktopCard({ step, index }: { step: typeof STEPS[0]; index: number }) {
   const tilt = useTilt();
   const Icon = step.icon;
-
   const floatDuration = 3 + (index % 3) * 0.8;
   const floatDelay = index * 0.4;
 
@@ -68,16 +55,11 @@ function PipelineCard({
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number], delay: index * 0.1 }}
-      className={`group ${isMobile ? "w-full" : "flex-shrink-0 w-[160px] lg:w-[180px]"}`}
+      className="group flex-shrink-0 w-[160px] lg:w-[180px]"
     >
       <motion.div
         animate={{ y: [0, -6, 0] }}
-        transition={{
-          duration: floatDuration,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: floatDelay,
-        }}
+        transition={{ duration: floatDuration, repeat: Infinity, ease: "easeInOut", delay: floatDelay }}
         className="relative bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-5 lg:p-6 flex flex-col items-center text-center gap-3 cursor-default transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(125,168,141,0.15)]"
         style={{
           rotateX: tilt.rotateX,
@@ -88,41 +70,83 @@ function PipelineCard({
         onMouseMove={tilt.onMouseMove}
         onMouseLeave={tilt.onMouseLeave}
       >
-        {/* Glow accent */}
         <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-brand-accent/0 via-brand-accent/0 to-brand-accent/0 group-hover:via-brand-accent/[0.03] group-hover:to-brand-accent/[0.06] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-        {/* Status badge */}
         <div className="flex items-center gap-1.5 self-start">
           <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse" />
-          <span className="text-[9px] font-semibold tracking-wider text-brand-accent/80 uppercase">
-            {step.badge}
-          </span>
+          <span className="text-[9px] font-semibold tracking-wider text-brand-accent/80 uppercase">{step.badge}</span>
         </div>
 
-        {/* Icon */}
         <div className="w-11 h-11 lg:w-12 lg:h-12 rounded-xl bg-brand-accent/10 flex items-center justify-center">
           <Icon className="w-5 h-5 lg:w-5.5 lg:h-5.5 text-brand-accent" />
         </div>
 
-        {/* Step number */}
-        <span className="text-[10px] font-mono text-white/20 font-medium">
-          STEP 0{step.id}
-        </span>
+        <span className="text-[10px] font-mono text-white/20 font-medium">STEP 0{step.id}</span>
 
-        {/* Title */}
-        <h3 className="text-sm lg:text-base font-bold text-white leading-tight">
-          {step.label}
-        </h3>
+        <h3 className="text-sm lg:text-base font-bold text-white leading-tight">{step.label}</h3>
 
-        {/* Subtitle */}
-        <p className="text-[10px] lg:text-[11px] text-white/50 leading-relaxed">
-          {step.sub}
-        </p>
+        <p className="text-[10px] lg:text-[11px] text-white/50 leading-relaxed">{step.sub}</p>
 
-        {/* Reflection shine */}
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
       </motion.div>
     </motion.div>
+  );
+}
+
+function MobileTimeline({ steps }: { steps: typeof STEPS }) {
+  return (
+    <div className="mx-auto w-full max-w-[400px]">
+      <div className="flex flex-col">
+        {steps.map((step, i) => {
+          const isFirst = i === 0;
+          const isLast = i === steps.length - 1;
+          const Icon = step.icon;
+
+          return (
+            <motion.div
+              key={step.id}
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number], delay: i * 0.08 }}
+              className="flex gap-3 items-stretch"
+            >
+              {/* Dot column */}
+              <div className="flex flex-col items-center w-8 shrink-0">
+                <div className={`w-0.5 ${isFirst ? 'bg-transparent' : 'bg-brand-accent/20'} flex-1 min-h-[16px]`} />
+                <div className="w-8 h-8 rounded-full bg-brand-accent/20 border-2 border-brand-accent flex items-center justify-center z-10 shrink-0">
+                  <span className="w-2.5 h-2.5 rounded-full bg-brand-accent animate-pulse" />
+                </div>
+                <div className={`w-0.5 ${isLast ? 'bg-transparent' : 'bg-brand-accent/20'} flex-1 min-h-[16px]`} />
+              </div>
+
+              {/* Card with padding-bottom creating the inter-card gap */}
+              <div className={`flex-1 min-w-0 bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-2xl transition-shadow duration-300 ${isLast ? 'p-4' : 'p-4 pb-10'}`}>
+                <div className="flex items-center gap-1.5 mb-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse" />
+                  <span className="text-[9px] font-semibold tracking-wider text-brand-accent/80 uppercase">{step.badge}</span>
+                </div>
+
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-brand-accent" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[10px] font-mono text-white/20 font-medium">STEP 0{step.id}</span>
+                    <h3 className="text-sm font-bold text-white leading-tight">{step.label}</h3>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-white/50 leading-relaxed">{step.sub}</p>
+
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+      <div className="h-14" />
+    </div>
   );
 }
 
@@ -146,16 +170,13 @@ export default function AutomationWorkflow() {
   }, []);
 
   const isMobile = width > 0 && width < 768;
-  const isTablet = width >= 768 && width < 1024;
 
   return (
     <section id="automation" className="relative py-24 md:py-32 bg-brand-charcoal overflow-hidden">
-      {/* Background glows */}
       <div className="absolute top-1/3 left-0 w-[600px] h-[600px] bg-brand-accent/[0.03] rounded-full blur-[120px] -translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-1/3 right-0 w-[600px] h-[600px] bg-brand-accent/[0.03] rounded-full blur-[120px] translate-x-1/2 pointer-events-none" />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
-        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -171,35 +192,20 @@ export default function AutomationWorkflow() {
           </h2>
         </motion.div>
 
-        {/* Pipeline */}
-        <div
-          className="relative w-full"
-          style={{ height: isMobile ? `${Math.max(STEPS.length * 280, 480)}px` : "420px" }}
-        >
-          {/* Three.js background */}
-          {width > 0 && (
-            <PipelineScene isMobile={isMobile} reducedMotion={reducedMotion} />
-          )}
-
-          {/* Cards */}
-          <div
-            className={`relative z-10 w-full h-full ${
-              isMobile
-                ? "flex flex-col items-center gap-6 py-4"
-                : "flex items-center justify-center gap-3 lg:gap-5"
-            }`}
-          >
-            {STEPS.map((step, i) => (
-              <PipelineCard
-                key={step.id}
-                step={step}
-                index={i}
-                total={STEPS.length}
-                isMobile={isMobile}
-              />
-            ))}
+        {isMobile ? (
+          <MobileTimeline steps={STEPS} />
+        ) : (
+          <div className="relative w-full h-[420px]">
+            {width > 0 && (
+              <PipelineScene isMobile={false} reducedMotion={reducedMotion} />
+            )}
+            <div className="relative z-10 w-full h-full flex items-center justify-center gap-3 lg:gap-5">
+              {STEPS.map((step, i) => (
+                <DesktopCard key={step.id} step={step} index={i} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
