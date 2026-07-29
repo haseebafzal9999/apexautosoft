@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html, Float } from "@react-three/drei";
 import { Group } from "three";
-import { NODE_DATA } from "./config";
+import { NODE_DATA, MOBILE_NODE_IDS } from "./config";
 
 export default function AutomationNodes({ isMobile = false }: { isMobile?: boolean }) {
   const groupRef = useRef<Group>(null);
@@ -15,9 +15,13 @@ export default function AutomationNodes({ isMobile = false }: { isMobile?: boole
     }
   });
 
+  const visibleNodes = isMobile
+    ? NODE_DATA.filter(n => MOBILE_NODE_IDS.includes(n.id))
+    : NODE_DATA;
+
   return (
     <group ref={groupRef}>
-      {NODE_DATA.map((node) => {
+      {visibleNodes.map((node) => {
         const pos = isMobile 
           ? [node.pos[0] * 0.6, node.pos[1] * 0.6, node.pos[2] * 0.6] as [number, number, number]
           : node.pos as [number, number, number];

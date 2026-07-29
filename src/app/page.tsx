@@ -6,6 +6,7 @@ import Projects from "@/components/Projects";
 import WhyUs from "@/components/WhyUs";
 import Process from "@/components/Process";
 import About from "@/components/About";
+import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <WhyUs />
       <Process />
       <About />
+      <Testimonials />
       <Contact />
     </>
   );

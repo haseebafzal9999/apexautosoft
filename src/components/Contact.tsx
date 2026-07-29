@@ -12,7 +12,7 @@ export default function Contact() {
     name: "",
     email: "",
     company: "",
-    projectType: "Custom Web Application",
+    budget: "",
     description: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -39,7 +39,7 @@ export default function Contact() {
       await new Promise(resolve => setTimeout(resolve, 1500));
       // throw new Error("Simulated error"); // Uncomment to test error state
       setStatus("success");
-      setFormData({ name: "", email: "", company: "", projectType: "Custom Web Application", description: "" });
+      setFormData({ name: "", email: "", company: "", budget: "", description: "" });
     } catch (err) {
       setStatus("error");
     }
@@ -175,21 +175,17 @@ export default function Contact() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="projectType" className="text-sm font-semibold text-brand-dark tracking-wide">Project Type</label>
-                  <select 
-                    id="projectType"
-                    name="projectType"
-                    value={formData.projectType}
+                  <label htmlFor="budget" className="text-sm font-semibold text-brand-dark tracking-wide">Budget (Optional)</label>
+                  <input 
+                    type="text" 
+                    id="budget"
+                    name="budget"
+                    value={formData.budget}
                     onChange={handleChange}
                     disabled={status === "loading"}
-                    className="px-4 py-3 bg-brand-light/50 border border-brand-muted/20 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent appearance-none"
-                  >
-                    <option value="Custom Web Application">Custom Web Application</option>
-                    <option value="Twilio Integration">Twilio Integration</option>
-                    <option value="Automation & AI">Automation & AI Agents</option>
-                    <option value="Systeme.io / Funnel">Systeme.io / Funnel</option>
-                    <option value="Other">Other</option>
-                  </select>
+                    placeholder="e.g. $5,000 - $10,000"
+                    className="px-4 py-3 bg-brand-light/50 border border-brand-muted/20 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent"
+                  />
                 </div>
 
                 <div className="flex flex-col gap-2">

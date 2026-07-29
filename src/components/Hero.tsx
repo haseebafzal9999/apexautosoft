@@ -76,7 +76,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Right Content - 3D scene */}
-        <div className="relative w-full lg:w-[55%] h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] flex items-center justify-center overflow-hidden min-w-0">
+         <div className="relative w-full lg:w-[55%] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] flex items-center justify-center overflow-hidden min-w-0">
            <AutomationScene />
         </div>
       </div>

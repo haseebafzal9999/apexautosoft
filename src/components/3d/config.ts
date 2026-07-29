@@ -1,3 +1,5 @@
+export const MOBILE_NODE_IDS = ["lead", "ai", "result"];
+
 export const NODE_DATA = [
   { id: "lead", label: "LEAD", status: "Captured", pos: [-4, 2.5, 1], type: "input" },
   { id: "ai", label: "AI AGENT", status: "Processing", pos: [-4, -1, 1.5], type: "processor" },
