@@ -26,7 +26,7 @@ export default function ProjectCard({ project, index, onViewDetails, onWatchDemo
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.7, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-      className="group flex flex-col bg-white border border-brand-muted/20 hover:border-brand-accent/40 hover:shadow-xl hover:shadow-brand-muted/5 transition-all duration-500"
+      className="group flex flex-col h-full bg-white border border-brand-muted/20 hover:border-brand-accent/40 hover:shadow-xl hover:shadow-brand-muted/5 transition-all duration-500"
     >
       {/* Image area */}
       <div className="relative aspect-video bg-brand-accentLight overflow-hidden">
