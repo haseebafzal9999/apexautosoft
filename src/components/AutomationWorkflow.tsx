@@ -95,7 +95,7 @@ function DesktopCard({ step, index }: { step: typeof STEPS[0]; index: number }) 
 
 function MobileTimeline({ steps }: { steps: typeof STEPS }) {
   return (
-    <div className="mx-auto w-full max-w-[400px]">
+    <div className="mx-auto w-full max-w-[400px] pt-8">
       <div className="flex flex-col">
         {steps.map((step, i) => {
           const isFirst = i === 0;
