@@ -1,135 +1,206 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Bot, Database, Mail, MessageSquare, Phone, UserPlus } from "lucide-react";
-import { clsx } from "clsx";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import {
+  UserPlus,
+  Bot,
+  Database,
+  MessageSquare,
+  Repeat,
+  TrendingUp,
+} from "lucide-react";
+import dynamic from "next/dynamic";
+
+const PipelineScene = dynamic(() => import("./3d/PipelineScene"), { ssr: false });
 
 const STEPS = [
-  { id: 1, label: "NEW LEAD", icon: UserPlus, desc: "Captured from web form" },
-  { id: 2, label: "AI QUALIFICATION", icon: Bot, desc: "Real-time conversation" },
-  { id: 3, label: "CRM UPDATE", icon: Database, desc: "Data synced instantly" },
-  { id: 4, label: "TWILIO SMS", icon: MessageSquare, desc: "Personalized text sent" },
-  { id: 5, label: "FOLLOW-UP", icon: Phone, desc: "Scheduled voice call" },
-  { id: 6, label: "RESULT", icon: Mail, desc: "Deal closed & reported" },
+  { id: 1, icon: UserPlus, label: "New Lead", sub: "Inbound lead detected & verified", badge: "Trigger" },
+  { id: 2, icon: Bot, label: "AI Qualification", sub: "AI-powered needs analysis", badge: "Active" },
+  { id: 3, icon: Database, label: "CRM Update", sub: "Customer record created & tagged", badge: "Syncing" },
+  { id: 4, icon: MessageSquare, label: "Twilio SMS", sub: "Targeted SMS campaign delivered", badge: "Sent" },
+  { id: 5, icon: Repeat, label: "Follow-Up", sub: "Smart follow-up sequence triggered", badge: "Active" },
+  { id: 6, icon: TrendingUp, label: "Sales Result", sub: "Revenue captured & analytics updated", badge: "Closed" },
 ];
 
-export default function AutomationWorkflow() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"],
-  });
+
+
+function useTilt() {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-0.5, 0.5], [6, -6]);
+  const rotateY = useTransform(x, [-0.5, 0.5], [-6, 6]);
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  }, [x, y]);
+
+  const onMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+
+  return { rotateX, rotateY, onMouseMove, onMouseLeave, style: { perspective: 1000 } };
+}
+
+function PipelineCard({
+  step,
+  index,
+  total,
+  isMobile,
+}: {
+  step: typeof STEPS[0];
+  index: number;
+  total: number;
+  isMobile: boolean;
+}) {
+  const tilt = useTilt();
+  const Icon = step.icon;
+
+  const floatDuration = 3 + (index % 3) * 0.8;
+  const floatDelay = index * 0.4;
 
   return (
-    <section id="automation" className="py-24 md:py-40 bg-brand-charcoal text-brand-light relative overflow-hidden">
-      <div className="container mx-auto px-6 md:px-12 relative z-10" ref={containerRef}>
-        
-        <div className="text-center mb-24">
-          <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold mb-6"
-          >
-            FROM TRIGGER <br/><span className="text-brand-accent">TO RESULT.</span>
-          </motion.h2>
+    <motion.div
+      initial={{ opacity: 0, y: 40, scale: 0.92 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number], delay: index * 0.1 }}
+      className={`group ${isMobile ? "w-full" : "flex-shrink-0 w-[160px] lg:w-[180px]"}`}
+    >
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{
+          duration: floatDuration,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: floatDelay,
+        }}
+        className="relative bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-5 lg:p-6 flex flex-col items-center text-center gap-3 cursor-default transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(125,168,141,0.15)]"
+        style={{
+          rotateX: tilt.rotateX,
+          rotateY: tilt.rotateY,
+          transformStyle: "preserve-3d",
+          ...tilt.style,
+        }}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
+      >
+        {/* Glow accent */}
+        <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-brand-accent/0 via-brand-accent/0 to-brand-accent/0 group-hover:via-brand-accent/[0.03] group-hover:to-brand-accent/[0.06] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+        {/* Status badge */}
+        <div className="flex items-center gap-1.5 self-start">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse" />
+          <span className="text-[9px] font-semibold tracking-wider text-brand-accent/80 uppercase">
+            {step.badge}
+          </span>
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
-          {/* Connecting Line Desktop */}
-          <div className="hidden md:block absolute left-[50%] top-0 bottom-0 w-[2px] bg-brand-muted/20 -translate-x-1/2">
-            <motion.div 
-              className="absolute top-0 left-0 w-full bg-brand-accent shadow-[0_0_15px_rgba(125,168,141,0.5)] origin-top"
-              style={{ scaleY: scrollYProgress }}
-            />
-          </div>
-          
-          {/* Connecting Line Mobile */}
-          <div className="block md:hidden absolute left-8 top-0 bottom-0 w-[2px] bg-brand-muted/20">
-            <motion.div 
-              className="absolute top-0 left-0 w-full bg-brand-accent shadow-[0_0_15px_rgba(125,168,141,0.5)] origin-top"
-              style={{ scaleY: scrollYProgress }}
-            />
-          </div>
-
-          <div className="flex flex-col gap-12 md:gap-24 relative">
-            {STEPS.map((step, i) => {
-              // Calculate activation range for each step based on scroll progress
-              const start = i / STEPS.length;
-              const end = (i + 1) / STEPS.length;
-              
-              // We can't use hooks conditionally or inside map easily for transforms,
-              // but we can pass scrollYProgress to a child component to handle it cleanly.
-              return <StepCard key={step.id} step={step} index={i} progress={scrollYProgress} start={start} />;
-            })}
-          </div>
+        {/* Icon */}
+        <div className="w-11 h-11 lg:w-12 lg:h-12 rounded-xl bg-brand-accent/10 flex items-center justify-center">
+          <Icon className="w-5 h-5 lg:w-5.5 lg:h-5.5 text-brand-accent" />
         </div>
-      </div>
-      
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-accent/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-accent/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/3" />
-    </section>
+
+        {/* Step number */}
+        <span className="text-[10px] font-mono text-white/20 font-medium">
+          STEP 0{step.id}
+        </span>
+
+        {/* Title */}
+        <h3 className="text-sm lg:text-base font-bold text-white leading-tight">
+          {step.label}
+        </h3>
+
+        {/* Subtitle */}
+        <p className="text-[10px] lg:text-[11px] text-white/50 leading-relaxed">
+          {step.sub}
+        </p>
+
+        {/* Reflection shine */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+      </motion.div>
+    </motion.div>
   );
 }
 
-function StepCard({ step, index, progress, start }: any) {
-  const isEven = index % 2 === 0;
-  
-  // Use transform to create active state threshold
-  const opacity = useTransform(progress, [start - 0.1, start + 0.1], [0.3, 1]);
-  const scale = useTransform(progress, [start - 0.1, start + 0.1], [0.8, 1]);
-  const borderColor = useTransform(
-    progress,
-    [start - 0.1, start + 0.1],
-    ["rgba(105, 114, 105, 0.2)", "rgba(125, 168, 141, 0.8)"] // muted/20 to accent
-  );
+export default function AutomationWorkflow() {
+  const [width, setWidth] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const check = () => setWidth(window.innerWidth);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const isMobile = width > 0 && width < 768;
+  const isTablet = width >= 768 && width < 1024;
 
   return (
-    <div className={clsx(
-      "flex items-center gap-6 md:gap-12 w-full",
-      isEven ? "md:flex-row" : "md:flex-row-reverse"
-    )}>
-      
-      {/* Mobile Icon */}
-      <motion.div 
-        style={{ opacity, scale, borderColor }}
-        className="md:hidden w-16 h-16 shrink-0 rounded-full bg-brand-charcoal border-2 flex items-center justify-center relative z-10"
-      >
-        <step.icon className="w-6 h-6 text-brand-accent" />
-      </motion.div>
+    <section id="automation" className="relative py-24 md:py-32 bg-brand-charcoal overflow-hidden">
+      {/* Background glows */}
+      <div className="absolute top-1/3 left-0 w-[600px] h-[600px] bg-brand-accent/[0.03] rounded-full blur-[120px] -translate-x-1/2 pointer-events-none" />
+      <div className="absolute bottom-1/3 right-0 w-[600px] h-[600px] bg-brand-accent/[0.03] rounded-full blur-[120px] translate-x-1/2 pointer-events-none" />
 
-      {/* Content */}
-      <motion.div 
-        style={{ opacity }}
-        className={clsx(
-          "flex-1 bg-white/5 backdrop-blur-sm border border-white/10 p-6 md:p-8 rounded-lg",
-          isEven ? "md:text-right" : "md:text-left"
-        )}
-      >
-        <div className="text-brand-accent text-sm font-semibold tracking-wider mb-2">
-          STEP 0{step.id}
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16 md:mb-20"
+        >
+          <p className="text-brand-accent text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+            Automation Pipeline
+          </p>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-white leading-tight">
+            From Trigger{" "}
+            <span className="text-brand-accent">To Result.</span>
+          </h2>
+        </motion.div>
+
+        {/* Pipeline */}
+        <div
+          className="relative w-full"
+          style={{ height: isMobile ? `${Math.max(STEPS.length * 280, 480)}px` : "420px" }}
+        >
+          {/* Three.js background */}
+          {width > 0 && (
+            <PipelineScene isMobile={isMobile} reducedMotion={reducedMotion} />
+          )}
+
+          {/* Cards */}
+          <div
+            className={`relative z-10 w-full h-full ${
+              isMobile
+                ? "flex flex-col items-center gap-6 py-4"
+                : "flex items-center justify-center gap-3 lg:gap-5"
+            }`}
+          >
+            {STEPS.map((step, i) => (
+              <PipelineCard
+                key={step.id}
+                step={step}
+                index={i}
+                total={STEPS.length}
+                isMobile={isMobile}
+              />
+            ))}
+          </div>
         </div>
-        <h3 className="text-xl md:text-2xl font-sans font-bold mb-2 text-brand-light">
-          {step.label}
-        </h3>
-        <p className="text-brand-muted text-sm md:text-base">
-          {step.desc}
-        </p>
-      </motion.div>
-
-      {/* Desktop Icon */}
-      <motion.div 
-        style={{ opacity, scale, borderColor }}
-        className="hidden md:flex w-20 h-20 shrink-0 rounded-full bg-brand-charcoal border-2 items-center justify-center relative z-10"
-      >
-        <step.icon className="w-8 h-8 text-brand-accent" />
-      </motion.div>
-
-      {/* Spacer for alternating layout */}
-      <div className="hidden md:block flex-1" />
-    </div>
+      </div>
+    </section>
   );
 }
