@@ -95,7 +95,7 @@ function DesktopCard({ step, index }: { step: typeof STEPS[0]; index: number }) 
 
 function MobileTimeline({ steps }: { steps: typeof STEPS }) {
   return (
-    <div className="mx-auto w-full max-w-[400px] pt-8">
+    <div className="mx-auto w-full max-w-[400px]">
       <div className="flex flex-col">
         {steps.map((step, i) => {
           const isFirst = i === 0;
@@ -122,22 +122,24 @@ function MobileTimeline({ steps }: { steps: typeof STEPS }) {
 
               {/* Card with padding-bottom creating the inter-card gap */}
               <div className={`flex-1 min-w-0 bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-2xl transition-shadow duration-300 ${isLast ? 'p-4' : 'p-4 pb-10'}`}>
-                <div className="flex items-center gap-1.5 mb-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse" />
-                  <span className="text-[9px] font-semibold tracking-wider text-brand-accent/80 uppercase">{step.badge}</span>
-                </div>
-
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5 text-brand-accent" />
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse" />
+                    <span className="text-[9px] font-semibold tracking-wider text-brand-accent/80 uppercase">{step.badge}</span>
                   </div>
-                  <div className="min-w-0">
-                    <span className="text-[10px] font-mono text-white/20 font-medium">STEP 0{step.id}</span>
-                    <h3 className="text-sm font-bold text-white leading-tight">{step.label}</h3>
-                  </div>
-                </div>
 
-                <p className="text-[11px] text-white/50 leading-relaxed">{step.sub}</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center shrink-0">
+                      <Icon className="w-5 h-5 text-brand-accent" />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-[10px] font-mono text-white/20 font-medium">STEP 0{step.id}</span>
+                      <h3 className="text-sm font-bold text-white leading-tight">{step.label}</h3>
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] text-white/50 leading-relaxed">{step.sub}</p>
+                </div>
 
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
               </div>
@@ -172,7 +174,7 @@ export default function AutomationWorkflow() {
   const isMobile = width > 0 && width < 768;
 
   return (
-    <section id="automation" className="relative py-24 md:py-32 bg-brand-charcoal overflow-hidden">
+    <section id="automation" className="relative py-24 md:py-32 bg-brand-charcoal overflow-hidden max-md:scroll-mt-24">
       <div className="absolute top-1/3 left-0 w-[600px] h-[600px] bg-brand-accent/[0.03] rounded-full blur-[120px] -translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-1/3 right-0 w-[600px] h-[600px] bg-brand-accent/[0.03] rounded-full blur-[120px] translate-x-1/2 pointer-events-none" />
 
@@ -181,7 +183,7 @@ export default function AutomationWorkflow() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16 md:mb-20"
+          className="text-center max-md:mb-10 md:mb-20"
         >
           <p className="text-brand-accent text-xs font-semibold tracking-[0.2em] uppercase mb-4">
             Automation Pipeline
