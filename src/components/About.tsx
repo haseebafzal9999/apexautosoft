@@ -1,5 +1,5 @@
 "use client";
-
+// This is About Section of the website. It is a simple section with a heading and a paragraph. The heading is animated using framer-motion.
 import { motion } from "framer-motion";
 
 export default function About() {
