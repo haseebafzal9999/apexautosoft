@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import Intro from "@/components/Intro";
 import Services from "@/components/Services";
 import AutomationWorkflow from "@/components/AutomationWorkflow";
+import Tools from "@/components/Tools";
 import Projects from "@/components/Projects";
 import WhyUs from "@/components/WhyUs";
 import Process from "@/components/Process";
@@ -15,6 +16,7 @@ export default function Home() {
       <Hero />
       <Intro />
       <Services />
+      <Tools />
       <AutomationWorkflow />
       <Projects />
       <WhyUs />

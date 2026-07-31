@@ -66,7 +66,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.name}

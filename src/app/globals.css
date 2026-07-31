@@ -44,6 +44,22 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track-left {
+  animation: marquee-left 48s linear infinite;
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .marquee-row:hover .marquee-track-left {
+    animation-play-state: paused;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -55,5 +71,9 @@ h1, h2, h3, h4, h5, h6 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .marquee-track-left {
+    animation: none !important;
+    transform: none !important;
   }
 }
