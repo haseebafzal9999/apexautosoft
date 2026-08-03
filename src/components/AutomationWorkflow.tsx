@@ -12,7 +12,35 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 
-const PipelineScene = dynamic(() => import("./3d/PipelineScene"), { ssr: false });
+const PipelineScene = dynamic(() => import("./3d/PipelineScene"), {
+  ssr: false,
+  loading: () => <PipelineSkeleton />,
+});
+
+function PipelineSkeleton() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+      <div className="relative w-full max-w-[900px] h-40">
+        <div className="absolute left-0 right-0 top-1/2 h-px bg-gradient-to-r from-brand-accent/0 via-brand-accent/40 to-brand-accent/0" />
+        {[
+          { left: "6%", top: "38%" },
+          { left: "24%", top: "56%" },
+          { left: "42%", top: "44%" },
+          { left: "60%", top: "60%" },
+          { left: "78%", top: "46%" },
+          { left: "94%", top: "52%" },
+        ].map((pos, i) => (
+          <div key={i} className="absolute -translate-x-1/2 -translate-y-1/2" style={pos}>
+            <div
+              className="w-2.5 h-2.5 rounded-full bg-brand-accent animate-pulse"
+              style={{ animationDelay: `${i * 0.2}s` }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const STEPS = [
   { id: 1, icon: UserPlus, label: "New Lead", sub: "Inbound lead detected & verified", badge: "Trigger" },
@@ -155,6 +183,9 @@ function MobileTimeline({ steps }: { steps: typeof STEPS }) {
 export default function AutomationWorkflow() {
   const [width, setWidth] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [everInView, setEverInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const check = () => setWidth(window.innerWidth);
@@ -171,10 +202,28 @@ export default function AutomationWorkflow() {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) setEverInView(true);
+      },
+      { rootMargin: "400px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const isMobile = width > 0 && width < 768;
 
   return (
-    <section id="automation" className="relative py-24 md:py-32 bg-brand-charcoal overflow-hidden max-md:scroll-mt-24">
+    <section
+      id="automation"
+      ref={sectionRef}
+      className="relative py-24 md:py-32 bg-brand-charcoal overflow-hidden max-md:scroll-mt-24"
+    >
       <div className="absolute top-1/3 left-0 w-[600px] h-[600px] bg-brand-accent/[0.03] rounded-full blur-[120px] -translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-1/3 right-0 w-[600px] h-[600px] bg-brand-accent/[0.03] rounded-full blur-[120px] translate-x-1/2 pointer-events-none" />
 
@@ -198,9 +247,12 @@ export default function AutomationWorkflow() {
           <MobileTimeline steps={STEPS} />
         ) : (
           <div className="relative w-full h-[420px]">
-            {width > 0 && (
-              <PipelineScene isMobile={false} reducedMotion={reducedMotion} />
-            )}
+            {width > 0 &&
+              (everInView ? (
+                <PipelineScene isMobile={false} reducedMotion={reducedMotion} active={inView} />
+              ) : (
+                <PipelineSkeleton />
+              ))}
             <div className="relative z-10 w-full h-full flex items-center justify-center gap-3 lg:gap-5">
               {STEPS.map((step, i) => (
                 <DesktopCard key={step.id} step={step} index={i} />

@@ -1,18 +1,15 @@
 "use client";
 
-import { useMemo, useRef, useEffect, useState } from "react";
+import { memo, useMemo, useRef, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 
-function NeonTube({ points }: { points: THREE.Vector3[] }) {
+const NeonTube = memo(function NeonTube({ points }: { points: THREE.Vector3[] }) {
   const curve = useMemo(
     () => new THREE.CatmullRomCurve3(points),
     [points]
   );
-
-  const tubeRef = useRef<THREE.Mesh>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
 
   const tubeGeo = useMemo(
     () => new THREE.TubeGeometry(curve, 64, 0.035, 8, false),
@@ -25,17 +22,17 @@ function NeonTube({ points }: { points: THREE.Vector3[] }) {
 
   return (
     <group>
-      <mesh ref={tubeRef} geometry={tubeGeo}>
+      <mesh geometry={tubeGeo}>
         <meshBasicMaterial color="#7DA88D" transparent opacity={0.85} />
       </mesh>
-      <mesh ref={glowRef} geometry={glowGeo}>
+      <mesh geometry={glowGeo}>
         <meshBasicMaterial color="#7DA88D" transparent opacity={0.12} />
       </mesh>
     </group>
   );
-}
+});
 
-function NodeGlow({ position }: { position: THREE.Vector3 }) {
+const NodeGlow = memo(function NodeGlow({ position }: { position: THREE.Vector3 }) {
   const ref = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
@@ -50,9 +47,9 @@ function NodeGlow({ position }: { position: THREE.Vector3 }) {
       <meshBasicMaterial color="#7DA88D" />
     </mesh>
   );
-}
+});
 
-function Particles({
+const Particles = memo(function Particles({
   curve,
   count,
 }: {
@@ -71,6 +68,12 @@ function Particles({
     speeds.current = Array.from({ length: count }, () => 0.08 + Math.random() * 0.12);
   }, [count]);
 
+  useEffect(() => {
+    for (let i = 0; i < count; i++) {
+      sizes[i] = 2 + Math.random() * 4;
+    }
+  }, [count, sizes]);
+
   useFrame((_, delta) => {
     if (!ref.current) return;
     const arr = ref.current.geometry.attributes.position.array as Float32Array;
@@ -86,12 +89,6 @@ function Particles({
     }
     ref.current.geometry.attributes.position.needsUpdate = true;
   });
-
-  useEffect(() => {
-    for (let i = 0; i < count; i++) {
-      sizes[i] = 2 + Math.random() * 4;
-    }
-  }, [count, sizes]);
 
   return (
     <points ref={ref}>
@@ -120,9 +117,9 @@ function Particles({
       />
     </points>
   );
-}
+});
 
-function Scene({
+const Scene = memo(function Scene({
   isMobile,
   reducedMotion,
 }: {
@@ -173,22 +170,30 @@ function Scene({
       ))}
     </>
   );
-}
+});
 
 export default function PipelineScene({
   isMobile,
   reducedMotion,
+  active,
 }: {
   isMobile: boolean;
   reducedMotion: boolean;
+  active: boolean;
 }) {
   const camZ = isMobile ? 14 : 12;
   const fov = isMobile ? 55 : 45;
 
   return (
     <Canvas
+      frameloop={active ? "always" : "never"}
       dpr={reducedMotion ? 0.5 : isMobile ? 0.8 : 1.5}
-      gl={{ antialias: true, alpha: true, powerPreference: isMobile ? "low-power" : "high-performance" }}
+      gl={{
+        antialias: true,
+        alpha: true,
+        stencil: false,
+        powerPreference: isMobile ? "low-power" : "high-performance",
+      }}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
     >
       <PerspectiveCamera makeDefault position={[0, 0, camZ]} fov={fov} />

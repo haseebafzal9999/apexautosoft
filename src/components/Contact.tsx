@@ -217,7 +217,8 @@ export default function Contact() {
                     </>
                   ) : (
                     <>
-                      SCHEDULE A FREE 30-MINUTE CONSULTATION
+                      <span className="hidden lg:inline">SCHEDULE A FREE 30-MINUTE CONSULTATION</span>
+                      <span className="lg:hidden">SCHEDULE A MEETING</span>
                       <Send className="w-4 h-4 shrink-0" />
                     </>
                   )}

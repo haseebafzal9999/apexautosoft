@@ -9,21 +9,32 @@ function ToolLogo({ tool }: { tool: Tool }) {
     <Image
       src={tool.logo}
       alt={`${tool.name} logo`}
-      width={36}
-      height={36}
+      width={32}
+      height={32}
       loading="lazy"
-      className={`w-9 h-9 shrink-0 object-contain ${tool.invert ? "[filter:brightness(0)_invert(1)] opacity-90" : ""}`}
+      className={`w-7 h-7 lg:w-8 lg:h-8 shrink-0 object-contain ${tool.invert ? "[filter:brightness(0)_invert(1)] opacity-90" : ""}`}
     />
   );
 }
 
 function ToolCard({ tool }: { tool: Tool }) {
   return (
-    <div className="group flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-xl px-4 py-3.5 w-[200px] md:w-[250px] mx-2 md:mx-3 transition-colors duration-300 hover:border-brand-accent/40 hover:bg-white/[0.07] hover:shadow-[0_0_25px_rgba(125,168,141,0.12)]">
-      <ToolLogo tool={tool} />
-      <div className="min-w-0">
-        <p className="text-sm font-bold text-white leading-tight truncate">{tool.name}</p>
-        <p className="text-[10px] text-white/45 leading-tight truncate">{tool.desc}</p>
+    <div className="flex-shrink-0 w-[160px] lg:w-[180px] mx-1.5 md:mx-3">
+      <div className="group relative h-full bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-5 lg:p-6 flex flex-col items-center text-center gap-3 cursor-default transition-all duration-300 hover:border-brand-accent/40 hover:bg-white/[0.07] hover:shadow-[0_0_40px_rgba(125,168,141,0.15)]">
+        <div className="flex items-center gap-1.5 self-start min-w-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse shrink-0" />
+          <span className="text-[9px] font-semibold tracking-wider text-brand-accent/80 uppercase truncate">{tool.tag}</span>
+        </div>
+
+        <div className="w-11 h-11 lg:w-12 lg:h-12 rounded-xl bg-brand-accent/10 flex items-center justify-center shrink-0">
+          <ToolLogo tool={tool} />
+        </div>
+
+        <h3 className="text-sm lg:text-base font-bold text-white leading-tight">{tool.name}</h3>
+
+        <p className="text-[10px] lg:text-[11px] text-white/50 leading-relaxed">{tool.desc}</p>
+
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
       </div>
     </div>
   );
@@ -58,19 +69,10 @@ function StaticGrid() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="flex flex-wrap justify-center gap-4 md:gap-5"
+      className="flex flex-wrap justify-center"
     >
       {TOOLS.map((tool) => (
-        <div
-          key={tool.name}
-          className="flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-xl px-5 py-4 w-[220px] transition-colors duration-300 hover:border-brand-accent/40"
-        >
-          <ToolLogo tool={tool} />
-          <div className="min-w-0">
-            <p className="text-sm font-bold text-white leading-tight truncate">{tool.name}</p>
-            <p className="text-[10px] text-white/45 leading-tight truncate">{tool.desc}</p>
-          </div>
-        </div>
+        <ToolCard key={tool.name} tool={tool} />
       ))}
     </motion.div>
   );
