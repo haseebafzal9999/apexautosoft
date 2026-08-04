@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import {
   UserPlus,
@@ -11,6 +11,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useAnimationPaused } from "@/lib/useAnimationPaused";
 
 const PipelineScene = dynamic(() => import("./3d/PipelineScene"), {
   ssr: false,
@@ -71,7 +72,7 @@ function useTilt() {
   return { rotateX, rotateY, onMouseMove, onMouseLeave, style: { perspective: 1000 } };
 }
 
-function DesktopCard({ step, index }: { step: typeof STEPS[0]; index: number }) {
+function DesktopCard({ step, index, paused }: { step: typeof STEPS[0]; index: number; paused: boolean }) {
   const tilt = useTilt();
   const Icon = step.icon;
   const floatDuration = 3 + (index % 3) * 0.8;
@@ -86,8 +87,8 @@ function DesktopCard({ step, index }: { step: typeof STEPS[0]; index: number }) 
       className="group flex-shrink-0 w-[160px] lg:w-[180px]"
     >
       <motion.div
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: floatDuration, repeat: Infinity, ease: "easeInOut", delay: floatDelay }}
+        animate={paused ? { y: 0 } : { y: [0, -6, 0] }}
+        transition={{ duration: paused ? 0 : floatDuration, repeat: paused ? 0 : Infinity, ease: "easeInOut", delay: paused ? 0 : floatDelay }}
         className="relative bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-5 lg:p-6 flex flex-col items-center text-center gap-3 cursor-default transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(125,168,141,0.15)]"
         style={{
           rotateX: tilt.rotateX,
@@ -185,7 +186,8 @@ export default function AutomationWorkflow() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [inView, setInView] = useState(false);
   const [everInView, setEverInView] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const [pageVisible, setPageVisible] = useState(true);
+  const { ref: sectionRef, paused } = useAnimationPaused<HTMLElement>();
 
   useEffect(() => {
     const check = () =>
@@ -207,6 +209,12 @@ export default function AutomationWorkflow() {
   }, []);
 
   useEffect(() => {
+    const onVisibility = () => setPageVisible(document.visibilityState === "visible");
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
+  useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
@@ -218,7 +226,7 @@ export default function AutomationWorkflow() {
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [sectionRef]);
 
   const isMobile = width > 0 && width < 768;
 
@@ -253,13 +261,13 @@ export default function AutomationWorkflow() {
           <div className="relative w-full h-[420px]">
             {width > 0 &&
               (everInView ? (
-                <PipelineScene isMobile={false} reducedMotion={reducedMotion} active={inView} />
+                <PipelineScene isMobile={false} reducedMotion={reducedMotion} active={inView && pageVisible} />
               ) : (
                 <PipelineSkeleton />
               ))}
             <div className="relative z-10 w-full h-full flex items-center justify-center gap-3 lg:gap-5">
               {STEPS.map((step, i) => (
-                <DesktopCard key={step.id} step={step} index={i} />
+                <DesktopCard key={step.id} step={step} index={i} paused={paused} />
               ))}
             </div>
           </div>

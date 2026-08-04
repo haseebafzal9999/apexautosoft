@@ -14,6 +14,13 @@ export default function AutomationScene() {
   const [canvasH, setCanvasH] = useState(400);
   const [ready, setReady] = useState(false);
   const [inView, setInView] = useState(true);
+  const [pageVisible, setPageVisible] = useState(true);
+
+  useEffect(() => {
+    const onVisibility = () => setPageVisible(document.visibilityState === "visible");
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
 
   useEffect(() => {
     const sync = () => {
@@ -52,12 +59,14 @@ export default function AutomationScene() {
     [viewportW, canvasH]
   );
 
+  const running = inView && pageVisible;
+
   if (!ready) return null;
 
   return (
     <div className="w-full h-full relative overflow-hidden">
       <Canvas
-        frameloop={inView ? "always" : "never"}
+        frameloop={running ? "always" : "never"}
         dpr={layout.dpr}
         gl={{
           antialias: !layout.isMobile,

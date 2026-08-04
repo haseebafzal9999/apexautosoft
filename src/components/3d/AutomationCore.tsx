@@ -43,16 +43,12 @@ export default function AutomationCore({ isMobile = false }: { isMobile?: boolea
               metalness={0.1}
             />
           ) : (
-            <meshPhysicalMaterial
+            <meshStandardMaterial
               color="#ffffff"
-              transmission={0.85}
-              metalness={0.1}
-              roughness={0.1}
-              ior={1.5}
-              thickness={0.5}
-              specularIntensity={1}
               transparent
-              opacity={0.6}
+              opacity={0.55}
+              roughness={0.15}
+              metalness={0.2}
             />
           )}
         </mesh>

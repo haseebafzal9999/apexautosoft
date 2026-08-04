@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VisibilityGovernor from "@/components/VisibilityGovernor";
 import {
   SITE_URL,
   SITE_NAME,
@@ -147,6 +148,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-brand-light text-brand-dark overflow-x-hidden`}>
+        <VisibilityGovernor />
         <Navbar />
         <main className="w-full max-w-full overflow-hidden">{children}</main>
         <Footer />

@@ -54,6 +54,18 @@ h1, h2, h3, h4, h5, h6 {
   will-change: transform;
 }
 
+/* Pause all infinite CSS animations when the tab is hidden. */
+html.page-hidden .animate-pulse,
+html.page-hidden .animate-ping,
+html.page-hidden .marquee-track-left {
+  animation-play-state: paused !important;
+}
+
+/* Pause the marquee while the Tools section is offscreen. */
+.marquee-section-paused .marquee-track-left {
+  animation-play-state: paused !important;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .marquee-row:hover .marquee-track-left {
     animation-play-state: paused;

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { TOOLS, type Tool } from "@/lib/constants";
+import { useAnimationPaused } from "@/lib/useAnimationPaused";
 
 function ToolLogo({ tool }: { tool: Tool }) {
   return (
@@ -80,11 +81,13 @@ function StaticGrid() {
 
 export default function Tools() {
   const reducedMotion = useReducedMotion();
+  const { ref, paused } = useAnimationPaused<HTMLElement>();
 
   return (
     <section
       id="tools"
-      className="relative py-24 md:py-32 bg-brand-charcoal text-brand-light overflow-hidden max-md:scroll-mt-24 border-b border-white/[0.06]"
+      ref={ref}
+      className={`relative py-24 md:py-32 bg-brand-charcoal text-brand-light overflow-hidden max-md:scroll-mt-24 border-b border-white/[0.06]${paused ? " marquee-section-paused" : ""}`}
     >
       {/* Ambient glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-brand-accent/[0.05] rounded-full blur-[120px] pointer-events-none" />
