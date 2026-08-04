@@ -91,8 +91,8 @@ export function getResponsiveLayout(
     positions = computeMobilePositions(viewportWidth, canvasHeight);
     cameraZ = 14;
     fov = 65;
-    dpr = Math.min(window.devicePixelRatio, 1.2);
-    particleCount = 12;
+    dpr = Math.min(window.devicePixelRatio, 1);
+    particleCount = 8;
   } else if (isTablet) {
     positions = computeTabletPositions(1.3);
     cameraZ = 12;

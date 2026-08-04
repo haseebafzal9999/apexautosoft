@@ -12,12 +12,35 @@ const AutomationScene = dynamic(() => import("./3d/AutomationScene"), {
 
 export default function Hero() {
   const [viewportW, setViewportW] = useState(0);
+  const [sceneMounted, setSceneMounted] = useState(false);
 
   useEffect(() => {
     const check = () => setViewportW(window.innerWidth);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    let id = 0;
+    const w = window as typeof window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const mount = () => {
+      if (!cancelled) setSceneMounted(true);
+    };
+    if (typeof w.requestIdleCallback === "function") {
+      id = w.requestIdleCallback(mount, { timeout: 1000 });
+    } else {
+      id = window.setTimeout(mount, 200);
+    }
+    return () => {
+      cancelled = true;
+      if (typeof w.cancelIdleCallback === "function") w.cancelIdleCallback(id);
+      else window.clearTimeout(id);
+    };
   }, []);
 
   const mobileH = Math.min(420, Math.max(340, (viewportW || 375) * 0.95));
@@ -105,7 +128,7 @@ export default function Hero() {
             height: viewportW < 768 ? `${mobileH}px` : viewportW < 1024 ? `${tabletH}px` : "550px",
           }}
         >
-          <AutomationScene />
+          {sceneMounted && <AutomationScene />}
         </div>
       </div>
     </section>

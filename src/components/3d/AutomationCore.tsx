@@ -34,17 +34,27 @@ export default function AutomationCore({ isMobile = false }: { isMobile?: boolea
         {/* Outer Glass Core */}
         <mesh ref={outerRef} scale={scale}>
           <icosahedronGeometry args={[1, 0]} />
-          <meshPhysicalMaterial 
-            color="#ffffff"
-            transmission={0.85}
-            metalness={0.1}
-            roughness={0.1}
-            ior={1.5}
-            thickness={0.5}
-            specularIntensity={1}
-            transparent
-            opacity={0.6}
-          />
+          {isMobile ? (
+            <meshStandardMaterial
+              color="#ffffff"
+              transparent
+              opacity={0.55}
+              roughness={0.2}
+              metalness={0.1}
+            />
+          ) : (
+            <meshPhysicalMaterial
+              color="#ffffff"
+              transmission={0.85}
+              metalness={0.1}
+              roughness={0.1}
+              ior={1.5}
+              thickness={0.5}
+              specularIntensity={1}
+              transparent
+              opacity={0.6}
+            />
+          )}
         </mesh>
 
         {/* Inner Tech Core */}

@@ -16,7 +16,7 @@ export default function Footer() {
               </span>
               <div className="w-2 h-2 rounded-full bg-brand-accent" />
             </Link>
-            <p className="text-brand-muted text-sm leading-relaxed">
+            <p className="text-brand-light/60 text-sm leading-relaxed">
               Automation that moves business forward.
             </p>
             <a
@@ -53,7 +53,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-brand-muted/20 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-brand-muted">
+        <div className="pt-6 border-t border-brand-muted/20 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-brand-light/60">
           <p>© 2026 ApexAutosoft. All rights reserved.</p>
           <div className="flex items-center gap-5">
             <Link href="#" className="hover:text-brand-light transition-colors">Privacy Policy</Link>

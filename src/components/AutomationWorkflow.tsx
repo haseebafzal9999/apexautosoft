@@ -188,7 +188,11 @@ export default function AutomationWorkflow() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const check = () => setWidth(window.innerWidth);
+    const check = () =>
+      setWidth((prev) => {
+        const v = window.innerWidth;
+        return Math.abs(v - prev) > 1 ? v : prev;
+      });
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);

@@ -191,7 +191,7 @@ export default function Testimonials() {
             </AnimatePresence>
           </div>
 
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center mt-6">
             {REVIEWS.map((review, i) => (
               <button
                 key={review.name}
@@ -200,8 +200,10 @@ export default function Testimonials() {
                   setIndex(i);
                 }}
                 aria-label={`Go to review ${i + 1}`}
-                className={`w-2 h-2 rounded-full transition-colors duration-300 ${i === index ? "bg-brand-accent" : "bg-white/20"}`}
-              />
+                className="relative flex items-center justify-center w-11 h-11 -mt-[18px] -ml-7 first:ml-0"
+              >
+                <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${i === index ? "bg-brand-accent" : "bg-white/20"}`} />
+              </button>
             ))}
           </div>
         </div>

@@ -13,12 +13,21 @@ export default function AutomationScene() {
   const [viewportW, setViewportW] = useState(0);
   const [canvasH, setCanvasH] = useState(400);
   const [ready, setReady] = useState(false);
+  const [inView, setInView] = useState(true);
 
   useEffect(() => {
     const sync = () => {
-      setViewportW(window.innerWidth);
+      setViewportW((prev) => {
+        const v = window.innerWidth;
+        return Math.abs(v - prev) > 1 ? v : prev;
+      });
       const el = document.getElementById("hero-3d-container");
-      if (el) setCanvasH(el.clientHeight);
+      if (el) {
+        setCanvasH((prev) => {
+          const h = el.clientHeight;
+          return Math.abs(h - prev) > 1 ? h : prev;
+        });
+      }
     };
     sync();
     setReady(true);
@@ -26,9 +35,15 @@ export default function AutomationScene() {
     const el = document.getElementById("hero-3d-container");
     if (el) ro.observe(el);
     window.addEventListener("resize", sync);
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "200px 0px" }
+    );
+    if (el) io.observe(el);
     return () => {
       window.removeEventListener("resize", sync);
       ro.disconnect();
+      io.disconnect();
     };
   }, []);
 
@@ -42,6 +57,7 @@ export default function AutomationScene() {
   return (
     <div className="w-full h-full relative overflow-hidden">
       <Canvas
+        frameloop={inView ? "always" : "never"}
         dpr={layout.dpr}
         gl={{
           antialias: !layout.isMobile,
