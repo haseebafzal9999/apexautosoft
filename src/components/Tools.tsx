@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { TOOLS, type Tool } from "@/lib/constants";
 import { useAnimationPaused } from "@/lib/useAnimationPaused";
 
@@ -81,7 +82,10 @@ function StaticGrid() {
 
 export default function Tools() {
   const reducedMotion = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
   const { ref, paused } = useAnimationPaused<HTMLElement>();
+
+  useEffect(() => setMounted(true), []);
 
   return (
     <section
@@ -113,7 +117,7 @@ export default function Tools() {
           </p>
         </motion.div>
 
-        {reducedMotion ? (
+        {mounted && reducedMotion ? (
           <StaticGrid />
         ) : (
           <MarqueeRow tools={TOOLS} speed={48} />
