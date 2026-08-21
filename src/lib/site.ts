@@ -10,4 +10,4 @@ export const SITE_TITLE = "ApexAutosoft | AI Automation & Custom Software Develo
 export const SITE_DESCRIPTION =
   "ApexAutosoft builds AI automation systems, AI agents, workflow automation, business process automation, CRM integrations, Twilio solutions, n8n automations, and custom software for modern businesses.";
 
-export const SITE_EMAIL = "hello@apexautosoft.com";
+export const SITE_EMAIL = "info@apexautosoft.com";

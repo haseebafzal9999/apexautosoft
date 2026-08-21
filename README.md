@@ -168,7 +168,7 @@ apexautosoft/
 <div align="center">
   <br>
   <p>
-    <a href="mailto:hello@apexautosoft.com">hello@apexautosoft.com</a>
+    <a href="mailto:info@apexautosoft.com">info@apexautosoft.com</a>
   </p>
   <p>
     Built with Next.js &middot; Deployed on Vercel

@@ -20,10 +20,10 @@ export default function Footer() {
               Automation that moves business forward.
             </p>
             <a
-              href="mailto:hello@apexautosoft.com"
+              href="mailto:info@apexautosoft.com"
               className="text-brand-accent text-sm font-medium hover:text-brand-light transition-colors mt-1"
             >
-              hello@apexautosoft.com
+              info@apexautosoft.com
             </a>
           </div>
 
