@@ -168,7 +168,7 @@ export const SOLUTIONS: Solution[] = [
     id: "workflow",
     icon: Workflow,
     title: "Business Workflow Automation",
-    desc: "Connect different business systems and automate repetitive processes using n8n, Zapier, APIs, and custom applications.",
+    desc: "Connect business systems and automate repetitive processes using n8n, Zapier, APIs, and custom applications.",
     label: "Integration",
   },
 ];
@@ -180,7 +180,7 @@ export const WHY_US = [
   },
   {
     title: "MODERN TECHNOLOGY",
-    desc: "Modern APIs, AI, automation and full-stack development.",
+    desc: "Modern APIs, AI, automation, and full-stack development.",
   },
   {
     title: "END-TO-END SUPPORT",
@@ -215,11 +215,11 @@ export const PROCESS = [
   {
     num: "04",
     title: "AUTOMATE",
-    desc: "Connect APIs, AI and business tools.",
+    desc: "Connect APIs, AI, and business tools.",
   },
   {
     num: "05",
     title: "LAUNCH & OPTIMIZE",
-    desc: "Deploy, monitor and continuously improve.",
+    desc: "Deploy, monitor, and continuously improve.",
   },
 ];

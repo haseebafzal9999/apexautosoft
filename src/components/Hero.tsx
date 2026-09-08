@@ -97,9 +97,9 @@ export default function Hero() {
             variants={fadeUpVariant}
             className="text-sm sm:text-base md:text-lg text-brand-muted mb-8 leading-relaxed"
           >
-            Expert in Twilio Voice & SMS, Zapier Automations, AI Agents,
-            Systeme.io, and Custom Web Applications. We build systems that
-            streamline operations and scale efficiently.
+            We&apos;re experts in Twilio Voice &amp; SMS, Zapier automations,
+            AI agents, Systeme.io, and custom web applications. We build
+            systems that streamline operations and scale efficiently.
           </motion.p>
 
           <motion.div

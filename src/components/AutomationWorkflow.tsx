@@ -251,7 +251,7 @@ export default function AutomationWorkflow() {
           </p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-white leading-tight">
             From Trigger{" "}
-            <span className="text-brand-accent">To Result.</span>
+            <span className="text-brand-accent">to Result.</span>
           </h2>
         </motion.div>
 

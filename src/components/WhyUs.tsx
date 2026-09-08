@@ -74,7 +74,7 @@ export default function WhyUs() {
               <div className="w-48 h-48 border border-brand-muted/30 rounded-full animate-[spin_15s_linear_infinite_reverse] flex items-center justify-center relative">
                 <div className="w-3 h-3 rounded-full bg-brand-light absolute -bottom-1.5" />
                 <div className="w-32 h-32 border border-brand-accent/50 rounded-full flex items-center justify-center bg-brand-accent/10 backdrop-blur-sm shadow-[0_0_30px_rgba(125,168,141,0.2)]">
-                  <span className="font-serif text-2xl font-bold text-brand-light">FLOW</span>
+                  <span className="font-serif text-2xl font-bold text-brand-light">APEX</span>
                 </div>
               </div>
             </div>

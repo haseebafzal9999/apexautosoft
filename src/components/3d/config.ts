@@ -8,12 +8,12 @@ export interface NodeConfig {
 export type NodePositions = Record<string, [number, number, number]>;
 
 export const NODE_CONFIGS: NodeConfig[] = [
-  { id: "lead", label: "LEAD", status: "Captured", type: "input" },
-  { id: "ai", label: "AI AGENT", status: "Processing", type: "processor" },
-  { id: "twilio", label: "TWILIO", status: "Active", type: "integration" },
-  { id: "zapier", label: "ZAPIER", status: "Connected", type: "integration" },
-  { id: "crm", label: "CRM", status: "Syncing", type: "system" },
-  { id: "result", label: "RESULT", status: "Delivered", type: "output" },
+  { id: "lead", label: "EDUCATION", status: "Captured", type: "input" },
+  { id: "ai", label: "AI SOLUTIONS", status: "Processing", type: "processor" },
+  { id: "twilio", label: "REMOTE MONITORING", status: "Active", type: "integration" },
+  { id: "zapier", label: "HEALTHCARE", status: "Connected", type: "integration" },
+  { id: "crm", label: "AUTOMATION", status: "Syncing", type: "system" },
+  { id: "result", label: "APPOINTMENT", status: "Delivered", type: "output" },
 ];
 
 export const DESKTOP_POSITIONS: NodePositions = {

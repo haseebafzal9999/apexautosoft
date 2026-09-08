@@ -11,6 +11,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    subject: "",
     company: "",
     budget: "",
     description: "",
@@ -33,13 +34,22 @@ export default function Contact() {
     if (!validate()) return;
 
     setStatus("loading");
-    
-    // Simulate API call architecture
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      // throw new Error("Simulated error"); // Uncomment to test error state
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        if (data && typeof data.fields === "object" && data.fields !== null) {
+          setErrors((prev) => ({ ...prev, ...data.fields }));
+        }
+        throw new Error("Request failed");
+      }
       setStatus("success");
-      setFormData({ name: "", email: "", company: "", budget: "", description: "" });
+      setFormData({ name: "", email: "", subject: "", company: "", budget: "", description: "" });
     } catch (err) {
       setStatus("error");
     }
@@ -75,7 +85,7 @@ export default function Contact() {
             transition={{ delay: 0.1 }}
             className="text-brand-muted text-lg leading-relaxed mb-12 max-w-lg"
           >
-            Let&apos;s discuss your project. Whether you need a custom web application, Twilio integration, AI agent or complete automation system, let&apos;s build something practical and scalable.
+            Let&apos;s discuss your project. Whether you need a custom web application, Twilio integration, AI agents, or a complete automation system, let&apos;s build something practical and scalable.
           </motion.p>
         </div>
 
@@ -170,6 +180,20 @@ export default function Contact() {
                     value={formData.company}
                     onChange={handleChange}
                     disabled={status === "loading"}
+                    className="px-4 py-3 bg-brand-light/50 border border-brand-muted/20 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="subject" className="text-sm font-semibold text-brand-dark tracking-wide">Subject (Optional)</label>
+                  <input 
+                    type="text" 
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    disabled={status === "loading"}
+                    placeholder="e.g. Automation project inquiry"
                     className="px-4 py-3 bg-brand-light/50 border border-brand-muted/20 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent"
                   />
                 </div>
