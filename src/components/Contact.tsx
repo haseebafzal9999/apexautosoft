@@ -11,7 +11,6 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
     company: "",
     description: "",
   });
@@ -48,7 +47,7 @@ export default function Contact() {
         throw new Error("Request failed");
       }
       setStatus("success");
-      setFormData({ name: "", email: "", subject: "", company: "", description: "" });
+      setFormData({ name: "", email: "", company: "", description: "" });
     } catch (err) {
       setStatus("error");
     }
@@ -179,20 +178,6 @@ export default function Contact() {
                     value={formData.company}
                     onChange={handleChange}
                     disabled={status === "loading"}
-                    className="px-4 py-3 bg-brand-light/50 border border-brand-muted/20 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="subject" className="text-sm font-semibold text-brand-dark tracking-wide">Subject (Optional)</label>
-                  <input 
-                    type="text" 
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    disabled={status === "loading"}
-                    placeholder="e.g. Automation project inquiry"
                     className="px-4 py-3 bg-brand-light/50 border border-brand-muted/20 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent"
                   />
                 </div>

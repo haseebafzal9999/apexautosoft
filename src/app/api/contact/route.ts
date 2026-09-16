@@ -19,7 +19,6 @@ export async function POST(req: Request) {
   const b = (body ?? {}) as Record<string, unknown>;
   const name = typeof b.name === "string" ? b.name.trim() : "";
   const email = typeof b.email === "string" ? b.email.trim() : "";
-  const subject = typeof b.subject === "string" ? b.subject.trim().slice(0, 200) : "";
   const company = typeof b.company === "string" ? b.company.trim().slice(0, 200) : "";
   const description = typeof b.description === "string" ? b.description.trim().slice(0, 5000) : "";
 
@@ -38,13 +37,12 @@ export async function POST(req: Request) {
   }
 
   const sentAt = new Date().toISOString();
-  const mailSubject = subject ? `New contact inquiry: ${subject}` : `New contact inquiry from ${name}`;
+  const mailSubject = `New contact inquiry from ${name}`;
   const text = [
     "New contact form submission on apexautosoft.com",
     "",
     `Name: ${name}`,
     `Email: ${email}`,
-    `Subject: ${subject || "(not provided)"}`,
     `Company: ${company || "(not provided)"}`,
     "",
     "Message:",
