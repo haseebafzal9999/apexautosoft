@@ -58,7 +58,7 @@ An AI-powered workflow automation platform using **n8n** as the core engine to o
 
 **Technologies:** n8n, OpenAI API, React, Tailwind CSS, Google Sheets, Slack, Docker, PostgreSQL
 
-### School Management System
+### Institute Management System
 *Custom Web Application — DEMO*
 
 A comprehensive educational administration platform digitizing school operations — from student admissions, attendance, timetables, and examinations to fee management, payroll, and role-based access. Built with **ASP.NET Core**, **React**, and **PostgreSQL** with JWT-secured role-based access for administrators, principals, teachers, and staff.

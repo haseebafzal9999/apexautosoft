@@ -13,7 +13,6 @@ export default function Contact() {
     email: "",
     subject: "",
     company: "",
-    budget: "",
     description: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -49,7 +48,7 @@ export default function Contact() {
         throw new Error("Request failed");
       }
       setStatus("success");
-      setFormData({ name: "", email: "", subject: "", company: "", budget: "", description: "" });
+      setFormData({ name: "", email: "", subject: "", company: "", description: "" });
     } catch (err) {
       setStatus("error");
     }
@@ -194,20 +193,6 @@ export default function Contact() {
                     onChange={handleChange}
                     disabled={status === "loading"}
                     placeholder="e.g. Automation project inquiry"
-                    className="px-4 py-3 bg-brand-light/50 border border-brand-muted/20 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="budget" className="text-sm font-semibold text-brand-dark tracking-wide">Budget (Optional)</label>
-                  <input 
-                    type="text" 
-                    id="budget"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    disabled={status === "loading"}
-                    placeholder="e.g. $5,000 - $10,000"
                     className="px-4 py-3 bg-brand-light/50 border border-brand-muted/20 outline-none transition-colors focus:border-brand-accent focus:ring-1 focus:ring-brand-accent"
                   />
                 </div>

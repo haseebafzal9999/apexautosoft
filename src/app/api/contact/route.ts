@@ -21,7 +21,6 @@ export async function POST(req: Request) {
   const email = typeof b.email === "string" ? b.email.trim() : "";
   const subject = typeof b.subject === "string" ? b.subject.trim().slice(0, 200) : "";
   const company = typeof b.company === "string" ? b.company.trim().slice(0, 200) : "";
-  const budget = typeof b.budget === "string" ? b.budget.trim().slice(0, 200) : "";
   const description = typeof b.description === "string" ? b.description.trim().slice(0, 5000) : "";
 
   const errors: Record<string, string> = {};
@@ -47,7 +46,6 @@ export async function POST(req: Request) {
     `Email: ${email}`,
     `Subject: ${subject || "(not provided)"}`,
     `Company: ${company || "(not provided)"}`,
-    `Budget: ${budget || "(not provided)"}`,
     "",
     "Message:",
     description,

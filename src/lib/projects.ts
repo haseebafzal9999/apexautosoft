@@ -167,14 +167,14 @@ export const PROJECTS: Project[] = [
   // === Custom Web Applications ===
   {
     id: "school-management-system",
-    title: "School Management System",
+    title: "Institute Management System",
     category: "Custom Web Applications",
     serviceType: "web-app",
     status: "DEMO",
     shortDescription:
       "A comprehensive educational administration platform digitizing school operations — from student admissions, attendance, timetables, and examinations to fee management, payroll, and role-based access — built with ASP.NET Core, React, and PostgreSQL.",
     fullDescription:
-      "The School Management System is a comprehensive educational administration platform designed to streamline the day-to-day operations of schools through a centralized and modern digital environment. Built using ASP.NET Core Web API, React, and PostgreSQL, the platform enables administrators, principals, teachers, and staff to efficiently manage academic operations, student records, staff information, attendance, examinations, fees, payroll, and institutional settings from a single integrated application.\n\nThe system replaces fragmented manual processes with a unified solution where every academic and administrative activity is digitally managed and interconnected. From student admissions and class enrollment to timetable scheduling, examination management, fee collection, payroll processing, attendance tracking, and reporting, each module works together to provide complete visibility into school operations.\n\nDesigned with scalability and maintainability in mind, the platform supports multiple institutes, academic years, grades, sections, classrooms, subjects, teachers, and students while maintaining accurate historical records for academic progression and institutional reporting.",
+      "The Institute Management System is a comprehensive educational administration platform designed to streamline the day-to-day operations of schools through a centralized and modern digital environment. Built using ASP.NET Core Web API, React, and PostgreSQL, the platform enables administrators, principals, teachers, and staff to efficiently manage academic operations, student records, staff information, attendance, examinations, fees, payroll, and institutional settings from a single integrated application.\n\nThe system replaces fragmented manual processes with a unified solution where every academic and administrative activity is digitally managed and interconnected. From student admissions and class enrollment to timetable scheduling, examination management, fee collection, payroll processing, attendance tracking, and reporting, each module works together to provide complete visibility into school operations.\n\nDesigned with scalability and maintainability in mind, the platform supports multiple institutes, academic years, grades, sections, classrooms, subjects, teachers, and students while maintaining accurate historical records for academic progression and institutional reporting.",
     technologies: [
       "ASP.NET Core Web API",
       "C#",
