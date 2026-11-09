@@ -318,6 +318,56 @@ export const PROJECTS: Project[] = [
     liveUrl: "",
     caseStudyUrl: "",
   },
+
+  // === AI + Business Automation ===
+  {
+    id: "apexautosoft-voicehub",
+    title: "Apexautosoft VoiceHub",
+    category: "AI + Business Automation",
+    serviceType: "ai-automation",
+    status: "DEMO",
+    shortDescription:
+      "An end-to-end AI-powered voice receptionist and business call automation platform that helps multiple businesses handle incoming phone calls, automate operations, manage customer interactions, and execute custom actions through an intelligent voice assistant.",
+    fullDescription:
+      "The Apexautosoft VoiceHub is an end-to-end AI-powered voice receptionist and business call management platform designed to help multiple businesses handle incoming phone calls, automate business operations, manage customer interactions, retrieve business information, and execute custom actions through an intelligent voice assistant.\n\nThe platform provides a centralized web-based dashboard where businesses can configure their AI voice receptionist, manage phone numbers, customize agent instructions, maintain business knowledge sources, define operating hours, and monitor call activity.\n\nThe system supports the complete AI receptionist management lifecycle — from business registration and onboarding to agent configuration, action creation, phone number integration, knowledge base management, incoming call handling, action execution, business record management, and call history monitoring.\n\nThe solution combines a role-based management dashboard with an integrated Retell AI voice infrastructure, allowing businesses to use a shared AI voice agent with business-specific configurations and dynamic variables.\n\nThe platform follows a multi-tenant architecture where each business maintains its own configuration, actions, knowledge sources, phone numbers, business records, and call history while operating through a centralized backend infrastructure.\n\nThe system also provides an agent testing environment where business owners can test AI conversations through chat and voice sessions before publishing agent configurations.",
+    technologies: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "SQLAlchemy",
+      "Retell AI",
+      "OpenRouter API",
+      "WebSockets",
+      "REST APIs",
+      "JWT Authentication",
+      "Role-Based Access Control",
+    ],
+    features: [
+      "Multi-tenant AI voice receptionist platform",
+      "Business registration and onboarding",
+      "AI agent configuration and publishing",
+      "Custom instructions and dynamic variables",
+      "Knowledge base management (PDF, TXT, Markdown, DOCX, FAQ, URLs)",
+      "Custom action management and execution",
+      "External API credentials management",
+      "Phone number and SIP integration",
+      "Business profile and operating hours management",
+      "Incoming call processing and AI conversation management",
+      "Business records management",
+      "Call logs and conversation history",
+      "AI agent testing and voice simulation",
+      "Role-based access control (Admin, Owner, Receptionist)",
+    ],
+    results: [],
+    image: "/projects/voicehub.webp",
+    video: "/videos/voicehub.mp4",
+    liveUrl: "",
+    caseStudyUrl: "",
+  },
 ];
 
 export function getProjectCategories(): string[] {
